@@ -1,1 +1,1 @@
-移动网关
+基于 nacos  spring-cloud-starter-gateway 移动网关
