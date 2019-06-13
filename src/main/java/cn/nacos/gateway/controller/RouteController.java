@@ -54,12 +54,13 @@ public class RouteController {
     }
 
 
+
     private RouteDefinition assembleRouteDefinition(GatewayRouteDefinition gatewayRouteDefinition) {
         RouteDefinition definition = new RouteDefinition();
         List<PredicateDefinition> pdList = new ArrayList<>();
         definition.setId(gatewayRouteDefinition.getId());
-        List<GatewayPredicateDefinition> gatewayPredicateDefinitionList = gatewayRouteDefinition.getPredicates();
-        for (GatewayPredicateDefinition gatewayPredicateDefinition : gatewayPredicateDefinitionList) {
+        List<GatewayPredicateDefinition> predicates = gatewayRouteDefinition.getPredicates();
+        for (GatewayPredicateDefinition gatewayPredicateDefinition : predicates) {
             PredicateDefinition predicateDefinition = new PredicateDefinition();
             predicateDefinition.setArgs(gatewayPredicateDefinition.getArgs());
             predicateDefinition.setName(gatewayPredicateDefinition.getName());

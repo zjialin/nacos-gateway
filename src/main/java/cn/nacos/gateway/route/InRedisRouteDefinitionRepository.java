@@ -1,6 +1,7 @@
 package cn.nacos.gateway.route;
 
 import com.alibaba.fastjson.JSONObject;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,11 +19,10 @@ import java.util.List;
 
 
 @Component
+@Slf4j
 public class InRedisRouteDefinitionRepository implements RouteDefinitionRepository {
 
-    private Logger logger = LoggerFactory.getLogger(this.toString());
-
-    private static final String GATEWAY_ROUTES = "nacos_gateway_routes";
+    private static final String GATEWAY_ROUTES = "gateway_routes";
 
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
@@ -41,7 +41,6 @@ public class InRedisRouteDefinitionRepository implements RouteDefinitionReposito
     @Override
     public Mono<Void> save(Mono<RouteDefinition> route) {
         return route.flatMap(routeDefinition -> {
-
             stringRedisTemplate.opsForHash().put(GATEWAY_ROUTES, routeDefinition.getId(),
                     JSONObject.toJSONString(routeDefinition));
             return Mono.empty();

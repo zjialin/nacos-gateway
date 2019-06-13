@@ -5,8 +5,7 @@ import com.alibaba.nacos.api.NacosFactory;
 import com.alibaba.nacos.api.config.ConfigService;
 import com.alibaba.nacos.api.config.listener.Listener;
 import com.alibaba.nacos.api.exception.NacosException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
@@ -18,8 +17,8 @@ import java.util.concurrent.Executor;
 
 @Component
 @RefreshScope
+@Slf4j
 public class DynamicRouteServiceImplByNacos {
-    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
 
     @Autowired
@@ -38,10 +37,10 @@ public class DynamicRouteServiceImplByNacos {
 
     @Bean
     public String routeServiceInit() {
-        logger.info("=======================================");
-        logger.info("dataId:{}", dataId);
-        logger.info("group:{}", group);
-        logger.info("address:{}", address);
+        log.info("=======================================");
+        log.info("dataId:{}", dataId);
+        log.info("group:{}", group);
+        log.info("address:{}", address);
         dynamicRouteByNacosListener(dataId, group, address);
         return "success";
     }
@@ -57,7 +56,7 @@ public class DynamicRouteServiceImplByNacos {
         try {
             ConfigService configService = NacosFactory.createConfigService(address);
             String content = configService.getConfig(dataId, group, 5000);
-            logger.info("Nacos初始化监听：{}", content);
+            log.info("Nacos初始化监听：{}", content);
             configService.addListener(dataId, group, new Listener() {
                 @Override
                 public void receiveConfigInfo(String configInfo) {
